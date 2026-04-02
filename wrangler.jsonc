@@ -3,10 +3,27 @@
   "main": "src/index.js",
   "name": "cloudflare-worker-loki",
   "workers_dev": true,
-  "observability": {
-    "enabled": true,
-  },
+  "observability": { "enabled": true },
+
   "vars": {
-    "lokiHost": "https://logs-prod-us-central1.grafana.net/loki/api/v1/push",
-  },
+    // Loki endpoint (no credentials in this URL)
+    "LOKI_PUSH_URL": "https://logs-prod-us-central1.grafana.net/loki/api/v1/push",
+
+    // Optional static labels to apply to all streams (keep these low-cardinality)
+    "STATIC_LABELS_JSON": "{\"source\":\"cloudflare-logpush\"}",
+
+    // Data-minimization defaults (reduce risk of sensitive leakage)
+    "REDACT_KEYS": "Cookies,RequestHeaders,ResponseHeaders",
+
+    // Optional: remove query strings from ClientRequestURI
+    "STRIP_QUERY_FROM_URI": "true",
+
+    // DoS guardrails (tune to your Logpush job max_upload_* settings)
+    "MAX_COMPRESSED_BYTES": "5000000",
+    "MAX_DECOMPRESSED_BYTES": "25000000",
+    "MAX_LINES": "5000",
+
+    // Fallback job label if no ?job=... is provided
+    "DEFAULT_JOB": "cloudflare_http_requests"
+  }
 }
