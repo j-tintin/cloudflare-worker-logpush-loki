@@ -61,7 +61,7 @@ curl --location --request POST 'https://api.cloudflare.com/client/v4/zones/<zone
 --data-raw '{
     "name": "http",
     "logpull_options": "fields=BotScore,BotScoreSrc,CacheCacheStatus,CacheResponseBytes,CacheResponseStatus,CacheTieredFill,ClientASN,ClientCountry,ClientDeviceType,ClientIP,ClientIPClass,ClientRequestBytes,ClientRequestHost,ClientRequestMethod,ClientRequestPath,ClientRequestProtocol,ClientRequestReferer,ClientRequestURI,ClientRequestUserAgent,ClientSSLCipher,ClientSSLProtocol,ClientSrcPort,ClientXRequestedWith,EdgeColoCode,EdgeColoID,EdgeEndTimestamp,EdgePathingOp,EdgePathingSrc,EdgePathingStatus,EdgeRateLimitAction,EdgeRateLimitID,EdgeRequestHost,EdgeResponseBytes,EdgeResponseCompressionRatio,EdgeResponseContentType,EdgeResponseStatus,EdgeServerIP,EdgeStartTimestamp,FirewallMatchesActions,FirewallMatchesRuleIDs,FirewallMatchesSources,OriginIP,OriginResponseBytes,OriginResponseHTTPExpires,OriginResponseHTTPLastModified,OriginResponseStatus,OriginResponseTime,OriginSSLProtocol,ParentRayID,RayID,SecurityLevel,WAFAction,WAFFlags,WAFMatchedVar,WAFProfile,WAFRuleID,WAFRuleMessage,WorkerCPUTime,WorkerStatus,WorkerSubrequest,WorkerSubrequestCount,ZoneID&timestamps=unixnano",
-    "destination_conf": "https://your.example.workers.dev?header_Authorization=Basic%20dXNlcm5hbWU6cGFzc3dvcmQK&job=lokiJobName",
+    "destination_conf": "https://your.example.workers.dev?header_X-Logpush-Token=<RANDOM_LONG_TOKEN>&job=lokiJobName",
     "max_upload_bytes": 5000000,
     "max_upload_records": 1000,
     "dataset": "http_requests",
@@ -69,15 +69,6 @@ curl --location --request POST 'https://api.cloudflare.com/client/v4/zones/<zone
     "enabled": true
 }'
 ```
-
-# shared secret to authenticate Logpush requests to your Worker
-wrangler secret put LOGPUSH_TOKEN
-
-# optional: Loki auth header (examples)
-# Basic: "Basic <base64(user:pass)>"
-# Bearer: "Bearer <token>"
-wrangler secret put LOKI_AUTH_HEADER
-
 - please make sure to update the following fields in the curl request above:
 - your own zone id instead of `<zone id>`
 - your own **API Key** and/or E-Mail and Global API Key
