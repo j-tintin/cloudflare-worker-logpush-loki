@@ -70,6 +70,14 @@ curl --location --request POST 'https://api.cloudflare.com/client/v4/zones/<zone
 }'
 ```
 
+# shared secret to authenticate Logpush requests to your Worker
+wrangler secret put LOGPUSH_TOKEN
+
+# optional: Loki auth header (examples)
+# Basic: "Basic <base64(user:pass)>"
+# Bearer: "Bearer <token>"
+wrangler secret put LOKI_AUTH_HEADER
+
 - please make sure to update the following fields in the curl request above:
 - your own zone id instead of `<zone id>`
 - your own **API Key** and/or E-Mail and Global API Key
